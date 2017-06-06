@@ -1915,6 +1915,27 @@ public class CameraDeviceImpl extends CameraDevice
         return true;
     }
 
+    private boolean checkPrivilegedAppList() {
+        String packageName = ActivityThread.currentOpPackageName();
+        String packageList = SystemProperties.get("persist.vendor.camera.privapp.list");
+
+        if (packageList.length() > 0) {
+            TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+            splitter.setString(packageList);
+            for (String str : splitter) {
+                if (packageName.equals(str)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isPrivilegedApp() {
+        return mIsPrivilegedApp;
+    }
+
     private void checkInputConfiguration(InputConfiguration inputConfig) {
         if (inputConfig == null) {
             return;
