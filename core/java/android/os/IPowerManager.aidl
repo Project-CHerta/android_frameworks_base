@@ -185,5 +185,10 @@ interface IPowerManager
     const int GO_TO_SLEEP_FLAG_NO_DOZE = 1 << 0;
 
     // Lineage custom API
+<<<<<<< HEAD
+=======
+    void rebootCustom(boolean confirm, String reason, boolean wait);
+    void setKeyboardVisibility(boolean visible);
+>>>>>>> efade7e0bf3d1 (frameworks: Add support for advanced restart options)
     void wakeUpWithProximityCheck(long time, int reason, String details, String opPackageName, int displayId);
 }
