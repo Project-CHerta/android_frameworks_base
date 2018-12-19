@@ -131,6 +131,7 @@ public class SystemSettings {
                 Settings.System.CV_DYNAMIC_ENABLED,
                 Settings.System.CV_PREFERRED_INTENSITY,
                 Settings.System.POWER_SHARE_THRESHOLD
+                Settings.System.VOLUME_PANEL_ON_LEFT
         ));
         if (Flags.backUpSmoothDisplayAndForcePeakRefreshRate()) {
             settings.add(Settings.System.PEAK_REFRESH_RATE);
