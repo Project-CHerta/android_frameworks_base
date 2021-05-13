@@ -328,5 +328,10 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.HIGH_TOUCH_POLLING_RATE_ENABLE, BOOLEAN_VALIDATOR);
         VALIDATORS.put(System.HIGH_TOUCH_SENSITIVITY_ENABLE, BOOLEAN_VALIDATOR);
 	VALIDATORS.put(System.ADVANCED_REBOOT, BOOLEAN_VALIDATOR);
+<<<<<<< HEAD
+=======
+        VALIDATORS.put(System.VOLUME_PANEL_ON_LEFT, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.AUTO_BRIGHTNESS_ONE_SHOT, BOOLEAN_VALIDATOR);
+>>>>>>> 757fa1e96 (AutoBrightness: Add support for one shot auto-brightness)
     }
 }
