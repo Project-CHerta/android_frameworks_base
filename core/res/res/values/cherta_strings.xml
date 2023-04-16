@@ -60,4 +60,9 @@
     <string name="battery_share_disabled">Battery Share disabled</string>
     <string name="battery_share_disabled_power_saver">Battery Share has been disabled due to battery saver being enabled.</string>
     <string name="battery_share_disabled_low_battery">Battery Share has been disabled as battery percentage reached the minimum threshold.</string>
+
+    <!-- PowerOffAlarmService -->
+    <string name="notification_channel_poweroff_alarm">Power off alarm</string>
+    <string name="poweroff_alarm_title">Power off alarm set</string>
+    <string name="poweroff_alarm_body">An alarm was detected and the device will power on 2 minutes before it\'s due</string>
 </resources>
