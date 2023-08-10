@@ -152,6 +152,7 @@ import com.android.server.blob.BlobStoreManagerService;
 import com.android.server.broadcastradio.BroadcastRadioService;
 import com.android.server.camera.CameraServiceProxy;
 import com.android.server.clipboard.ClipboardService;
+import com.android.server.cherta.CHertaDeviceConfigService;
 import com.android.server.companion.CompanionDeviceManagerService;
 import com.android.server.companion.datatransfer.continuity.TaskContinuityManagerService;
 import com.android.server.companion.datatransfer.continuity.UniversalClipboardService;
@@ -2875,6 +2876,11 @@ public final class SystemServer implements Dumpable {
             // LiveDisplay
             t.traceBegin("StartLiveDisplayService");
             mSystemServiceManager.startService(LiveDisplayService.class);
+            t.traceEnd();
+
+            // CHertaDeviceConfigService
+            t.traceBegin("StartCHertaDeviceConfigService");
+            mSystemServiceManager.startService(CHertaDeviceConfigService.class);
             t.traceEnd();
 
             if (SystemProperties.getBoolean(
