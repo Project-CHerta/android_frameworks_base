@@ -153,6 +153,7 @@ import com.android.server.broadcastradio.BroadcastRadioService;
 import com.android.server.camera.CameraServiceProxy;
 import com.android.server.clipboard.ClipboardService;
 import com.android.server.cherta.CHertaDeviceConfigService;
+import com.android.server.cherta.AttestationService;
 import com.android.server.companion.CompanionDeviceManagerService;
 import com.android.server.companion.datatransfer.continuity.TaskContinuityManagerService;
 import com.android.server.companion.datatransfer.continuity.UniversalClipboardService;
@@ -2871,6 +2872,11 @@ public final class SystemServer implements Dumpable {
             // CHertaDeviceConfigService
             t.traceBegin("StartCHertaDeviceConfigService");
             mSystemServiceManager.startService(CHertaDeviceConfigService.class);
+            t.traceEnd();
+
+            // AttestationService
+            t.traceBegin("AttestationService");
+            mSystemServiceManager.startService(AttestationService.class);
             t.traceEnd();
 
             if (SystemProperties.getBoolean(
