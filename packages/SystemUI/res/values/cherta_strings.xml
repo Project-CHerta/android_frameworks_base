@@ -27,6 +27,9 @@
     <!-- USB tethering QS tile -->
     <string name="quick_settings_usb_tether_label">USB tethering</string>
 
+    <!-- QS button to enable adaptive brightness -->
+    <string name="accessibility_adaptive_brightness">Adaptive brightness</string>
+
     <!-- Label for UI element which allows deleting the screenshot [CHAR LIMIT=30] -->
     <string name="screenshot_delete_label">Delete</string>
     <!-- Content description indicating that tapping the element will allow deleting the screenshot [CHAR LIMIT=NONE] -->
