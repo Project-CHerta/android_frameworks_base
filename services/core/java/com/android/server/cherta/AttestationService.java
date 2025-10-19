@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.android.server.SystemService;
@@ -43,7 +44,6 @@ public final class AttestationService extends SystemService {
     private static final boolean DEBUG = Log.isLoggable(TAG, Log.DEBUG);
 
     private final Context mContext;
-    private final File mDataFile;
     private final ScheduledExecutorService mScheduler;
     private final ConnectivityManager mConnectivityManager;
     private final FetchGmsCertifiedProps mFetchRunnable;
@@ -53,7 +53,6 @@ public final class AttestationService extends SystemService {
     public AttestationService(Context context) {
         super(context);
         mContext = context;
-        mDataFile = new File(Environment.getDataSystemDirectory(), DATA_FILE);
         mFetchRunnable = new FetchGmsCertifiedProps();
         mScheduler = Executors.newSingleThreadScheduledExecutor();
         mConnectivityManager =
@@ -71,32 +70,6 @@ public final class AttestationService extends SystemService {
             Log.i(TAG, "Scheduling periodic fetch every " + INTERVAL + " hours");
             mScheduler.scheduleAtFixedRate(
                     mFetchRunnable, INITIAL_DELAY, INTERVAL, TimeUnit.HOURS);
-        }
-    }
-
-    private String readFromFile(File file) {
-        StringBuilder content = new StringBuilder();
-
-        if (file.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    content.append(line);
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error reading from file", e);
-            }
-        }
-        return content.toString();
-    }
-
-    private void writeToFile(File file, String data) {
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(data);
-            file.setReadable(true, false); // Set -rw-r--r-- (644)
-        } catch (IOException e) {
-            Log.e(TAG, "Error writing to file", e);
         }
     }
 
@@ -193,12 +166,12 @@ public final class AttestationService extends SystemService {
                     return;
                 }
 
-                String savedProps = readFromFile(mDataFile);
+                String savedProps = Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.FETCHED_PIF);
                 String props = fetchProps();
 
                 if (props != null && !savedProps.equals(props)) {
                     dlog("Found new props, updating file");
-                    writeToFile(mDataFile, props);
+                    Settings.Secure.putString(mContext.getContentResolver(), Settings.Secure.FETCHED_PIF, props);
                     dlog("Props updated successfully");
                 } else {
                     dlog("No change in props");
