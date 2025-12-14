@@ -92,15 +92,15 @@ public class PropImitationHooks {
     private static final ComponentName GMS_ADD_ACCOUNT_ACTIVITY = ComponentName.unflattenFromString(
             "com.google.android.gms/.auth.uiflows.minutemaid.MinuteMaidActivity");
 
-    private static final Map<String, String> sPixel10PXLProps = Map.of(
+    private static final Map<String, String> sPixelLatestProps = Map.of(
             "PRODUCT", "mustang",
             "DEVICE", "mustang",
             "HARDWARE", "mustang",
             "MANUFACTURER", "Google",
             "BRAND", "google",
             "MODEL", "Pixel 10 Pro XL",
-            "ID", "BD3A.251105.010.E1",
-            "FINGERPRINT", "google/mustang/mustang:16/BD3A.251105.010.E1/14337626:user/release-keys"
+            "ID", "BP4A.260205.001",
+            "FINGERPRINT", "google/mustang/mustang:16/BP4A.260205.001/14624666:user/release-keys"
     );
 
     private static final Map<String, String> sPixelXLProps = Map.of(
@@ -213,8 +213,8 @@ public class PropImitationHooks {
             case PACKAGE_MAGICPORTRAIT:
             case PACKAGE_MAPS:
             case PACKAGE_VELVET:
-                dlog("Spoofing Pixel 10 Pro XL for: " + packageName + " process: " + processName);
-                setProps(sPixel10PXLProps);
+                dlog("Spoofing latest Pixel for: " + packageName + " process: " + processName);
+                setProps(sPixelLatestProps);
                 return;
             case PACKAGE_GPHOTOS:
                 dlog("Spoofing Pixel XL for Google Photos");
