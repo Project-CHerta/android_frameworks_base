@@ -65,7 +65,6 @@ public final class BcSmartspaceDataProvider implements BcSmartspaceDataPlugin {
         return mEventNotifier;
     }
 
-    @Override
     public BcSmartspaceDataPlugin.SmartspaceView getView(ViewGroup parent) {
         int layoutId =
                 mConfigProvider.isViewPager2Enabled()

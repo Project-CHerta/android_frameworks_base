@@ -25,7 +25,6 @@ public final class WeatherSmartspaceDataProvider implements BcSmartspaceDataPlug
         return mEventNotifier;
     }
 
-    @Override
     public final BcSmartspaceDataPlugin.SmartspaceView getLargeClockView(ViewGroup parent) {
         View view =
                 LayoutInflater.from(parent.getContext())
@@ -34,7 +33,6 @@ public final class WeatherSmartspaceDataProvider implements BcSmartspaceDataPlug
         return (BcSmartspaceDataPlugin.SmartspaceView) view;
     }
 
-    @Override
     public final BcSmartspaceDataPlugin.SmartspaceView getView(ViewGroup parent) {
         return (BcSmartspaceDataPlugin.SmartspaceView)
                 LayoutInflater.from(parent.getContext())

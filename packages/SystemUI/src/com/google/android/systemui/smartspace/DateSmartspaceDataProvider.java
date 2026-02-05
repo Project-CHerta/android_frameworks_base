@@ -54,7 +54,6 @@ public final class DateSmartspaceDataProvider implements BcSmartspaceDataPlugin 
         return mEventNotifier;
     }
 
-    @Override
     public final BcSmartspaceDataPlugin.SmartspaceView getLargeClockView(ViewGroup parent) {
         View view =
                 LayoutInflater.from(parent.getContext())
@@ -64,7 +63,6 @@ public final class DateSmartspaceDataProvider implements BcSmartspaceDataPlugin 
         return (BcSmartspaceDataPlugin.SmartspaceView) view;
     }
 
-    @Override
     public final BcSmartspaceDataPlugin.SmartspaceView getView(ViewGroup parent) {
         View view =
                 LayoutInflater.from(parent.getContext())
