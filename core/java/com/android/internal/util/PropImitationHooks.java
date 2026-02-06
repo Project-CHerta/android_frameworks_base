@@ -208,6 +208,10 @@ public class PropImitationHooks {
                 dlog("Spoofing Pixel 9 Pro XL for: " + packageName + " process: " + processName);
                 setProps(sPixelNineXLProps);
                 return;
+            case PACKAGE_GPHOTOS:
+                dlog("Spoofing Pixel XL for Google Photos");
+                setProps(sPixelXLProps);
+                return;
             case PACKAGE_NETFLIX:
                 if (!sNetflixModel.isEmpty()) {
                     dlog("Setting model to " + sNetflixModel + " for Netflix");
