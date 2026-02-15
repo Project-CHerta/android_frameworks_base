@@ -21,6 +21,7 @@ import com.android.systemui.qs.pipeline.shared.TileSpec
 import com.android.systemui.qs.shared.model.TileCategory
 import com.android.systemui.qs.tileimpl.QSTileImpl
 import com.android.systemui.qs.tiles.CaffeineTile
+import com.android.systemui.qs.tiles.UsbTetherTile
 import com.android.systemui.qs.tiles.base.shared.model.QSTileConfig
 import com.android.systemui.qs.tiles.base.shared.model.QSTileUIConfig
 import com.android.systemui.res.R
@@ -39,8 +40,15 @@ interface CHertaModule {
     @StringKey(CaffeineTile.TILE_SPEC)
     fun bindCaffeineTile(caffeineTile: CaffeineTile): QSTileImpl<*>
 
+    /** Inject UsbTetherTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(UsbTetherTile.TILE_SPEC)
+    fun bindUsbTetherTile(usbTetherTile: UsbTetherTile): QSTileImpl<*>
+
     companion object {
         const val CAFFEINE_TILE_SPEC = "caffeine"
+        const val USB_TETHER_TILE_SPEC = "usb_tether"
 
         @Provides
         @IntoMap
@@ -55,6 +63,21 @@ interface CHertaModule {
                     ),
                 instanceId = uiEventLogger.getNewInstanceId(),
                 category = TileCategory.DISPLAY,
+            )
+
+        @Provides
+        @IntoMap
+        @StringKey(USB_TETHER_TILE_SPEC)
+        fun provideUsbTetherTileConfig(uiEventLogger: QsEventLogger): QSTileConfig =
+            QSTileConfig(
+                tileSpec = TileSpec.create(USB_TETHER_TILE_SPEC),
+                uiConfig =
+                    QSTileUIConfig.Resource(
+                        iconRes = R.drawable.ic_qs_usb_tether,
+                        labelRes = R.string.quick_settings_usb_tether_label
+                    ),
+                instanceId = uiEventLogger.getNewInstanceId(),
+                category = TileCategory.CONNECTIVITY,
             )
     }
 }
