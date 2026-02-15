@@ -81,8 +81,8 @@ interface CHertaModule {
                 tileSpec = TileSpec.create(POWERSHARE_TILE_SPEC),
                 uiConfig =
                     QSTileUIConfig.Resource(
-                        iconRes = R.drawable.ic_qs_powershare,
-                        labelRes = R.string.quick_settings_powershare_label
+                        iconRes = com.android.internal.R.drawable.ic_qs_powershare,
+                        labelRes = com.android.internal.R.string.battery_share_label
                     ),
                 instanceId = uiEventLogger.getNewInstanceId(),
                 category = TileCategory.UTILITIES,

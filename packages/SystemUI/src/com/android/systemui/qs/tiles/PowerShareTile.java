@@ -16,9 +16,6 @@
 
 package com.android.systemui.qs.tiles;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -56,10 +53,6 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
     public static final String TILE_SPEC = "powershare";
 
     private BatteryController mBatteryController;
-    private NotificationManager mNotificationManager;
-    private Notification mNotification;
-    private static final String CHANNEL_ID = TILE_SPEC;
-    private static final int NOTIFICATION_ID = 273298;
 
     private final PowerShareManager mPowerShareManager;
 
@@ -146,14 +139,14 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
     @Override
     public CharSequence getTileLabel() {
         if (mBatteryController.isPowerSave()) {
-            return mContext.getString(R.string.quick_settings_powershare_off_powersave_label);
+            return mContext.getString(com.android.internal.R.string.battery_share_disabled_power_saver);
         } else {
             if (getBatteryLevel() < getMinBatteryLevel()) {
-                return mContext.getString(R.string.quick_settings_powershare_off_low_battery_label);
+                return mContext.getString(com.android.internal.R.string.battery_share_disabled_low_battery);
             }
         }
 
-        return mContext.getString(R.string.quick_settings_powershare_label);
+        return mContext.getString(com.android.internal.R.string.battery_share_label);
     }
 
     @Override
@@ -163,11 +156,11 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
         }
 
         if (mIcon == null) {
-            mIcon = maybeLoadResourceIcon(R.drawable.ic_qs_powershare);
+            mIcon = maybeLoadResourceIcon(com.android.internal.R.drawable.ic_qs_powershare);
         }
         state.icon = mIcon;
         state.value = mPowerShareManager.isEnabled();
-        state.label = mContext.getString(R.string.quick_settings_powershare_label);
+        state.label = mContext.getString(com.android.internal.R.string.battery_share_label);
 
         if (mBatteryController.isPowerSave() || getBatteryLevel() < getMinBatteryLevel()) {
             state.state = Tile.STATE_UNAVAILABLE;
