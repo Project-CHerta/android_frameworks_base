@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2026 CHerta
+     Copyright (C) 2024 Neoteric OS
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,14 +14,11 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
-
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- PowerShare -->
-    <java-symbol type="integer" name="config_defPowerShareThreshold" />
-    <java-symbol type="string" name="battery_share_label" />
-    <java-symbol type="string" name="battery_share_notification_summary" />
-    <java-symbol type="string" name="battery_share_disabled" />
-    <java-symbol type="string" name="battery_share_disabled_power_saver" />
-    <java-symbol type="string" name="battery_share_disabled_low_battery" />
-    <java-symbol type="drawable" name="ic_qs_powershare" />
+    <string name="battery_share_label">Battery Share</string>
+    <string name="battery_share_notification_summary">Notifications for Battery Share status</string>
+    <string name="battery_share_disabled">Battery Share disabled</string>
+    <string name="battery_share_disabled_power_saver">Battery Share has been disabled due to battery saver being enabled.</string>
+    <string name="battery_share_disabled_low_battery">Battery Share has been disabled as battery percentage reached the minimum threshold.</string>
 </resources>
