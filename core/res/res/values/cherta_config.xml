@@ -78,4 +78,7 @@
 
     <!-- Should we filter any display modes which are unmapped? -->
     <bool name="config_filterDisplayModes">false</bool>
+
+    <!-- Power share thresholds -->
+    <integer name="config_defPowerShareThreshold">20</integer>
 </resources>

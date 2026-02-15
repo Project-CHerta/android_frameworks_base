@@ -6862,6 +6862,12 @@ public final class Settings {
         public static final String[] LEGACY_RESTORE_SETTINGS = {
         };
 
+        /** 
+         * Power share threshold
+         * @hide
+         */
+        public static final String POWER_SHARE_THRESHOLD = "powershare_threshold";
+
         /**
          * These are all public system settings
          *

@@ -19,13 +19,14 @@ package com.android.systemui.qs.tiles;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.PowerShareManager;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ServiceManager;
 import android.service.quicksettings.Tile;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -44,9 +45,7 @@ import com.android.systemui.qs.tileimpl.QSTileImpl;
 import com.android.systemui.res.R;
 import com.android.systemui.statusbar.policy.BatteryController;
 
-import org.lineageos.internal.logging.LineageMetricsLogger;
-
-import vendor.lineage.powershare.IPowerShare;
+import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 
 import javax.inject.Inject;
 
@@ -55,12 +54,13 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
 
     public static final String TILE_SPEC = "powershare";
 
-    private IPowerShare mPowerShare;
     private BatteryController mBatteryController;
     private NotificationManager mNotificationManager;
     private Notification mNotification;
     private static final String CHANNEL_ID = TILE_SPEC;
     private static final int NOTIFICATION_ID = 273298;
+
+    private final PowerShareManager mPowerShareManager;
 
     @Nullable
     private Icon mIcon = null;
@@ -80,28 +80,10 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
     ) {
         super(host, uiEventLogger, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
-        mPowerShare = getPowerShare();
-        if (mPowerShare == null) {
-            return;
-        }
 
+        mPowerShareManager = (PowerShareManager) mContext.getSystemService(Context.POWER_SHARE_SERVICE);
+        if (mPowerShareManager == null) return;
         mBatteryController = batteryController;
-        mNotificationManager = mContext.getSystemService(NotificationManager.class);
-
-        NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
-                mContext.getString(R.string.quick_settings_powershare_label),
-                NotificationManager.IMPORTANCE_DEFAULT);
-        mNotificationManager.createNotificationChannel(notificationChannel);
-
-        Notification.Builder builder = new Notification.Builder(mContext, CHANNEL_ID);
-        builder.setContentTitle(
-                mContext.getString(R.string.quick_settings_powershare_enabled_label));
-        builder.setSmallIcon(R.drawable.ic_qs_powershare);
-        builder.setOnlyAlertOnce(true);
-        mNotification = builder.build();
-        mNotification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-        mNotification.visibility = Notification.VISIBILITY_PUBLIC;
-
         batteryController.addCallback(this);
     }
 
@@ -123,33 +105,15 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
         }
 
         if (mBatteryController.isPowerSave()) {
-            try {
-                mPowerShare.setEnabled(false);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            mPowerShareManager.setEnabled(false);
         }
 
-        try {
-            if (mPowerShare.isEnabled()) {
-                mNotificationManager.notify(NOTIFICATION_ID, mNotification);
-            } else {
-                mNotificationManager.cancel(NOTIFICATION_ID);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        mPowerShareManager.isEnabled();
     }
 
     @Override
     public boolean isAvailable() {
-        try {
-            // Will throw NPE or some other exception if HAL is either missing or broken.
-            mPowerShare.isEnabled();
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
+        return mPowerShareManager != null;
     }
 
     @Override
@@ -161,11 +125,10 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
 
     @Override
     public void handleClick(@Nullable Expandable expandable) {
-        try {
-            mPowerShare.setEnabled(!mPowerShare.isEnabled());
+        boolean powerShareEnabled = mPowerShareManager.isEnabled();
+
+        if (mPowerShareManager.setEnabled(!powerShareEnabled) != powerShareEnabled) {
             refreshState();
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -197,12 +160,7 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
             mIcon = maybeLoadResourceIcon(R.drawable.ic_qs_powershare);
         }
         state.icon = mIcon;
-        try {
-            state.value = mPowerShare.isEnabled();
-        } catch (Exception ex) {
-            state.value = false;
-            ex.printStackTrace();
-        }
+        state.value = mPowerShareManager.isEnabled();
         state.label = mContext.getString(R.string.quick_settings_powershare_label);
 
         if (mBatteryController.isPowerSave() || getBatteryLevel() < getMinBatteryLevel()) {
@@ -223,26 +181,8 @@ public class PowerShareTile extends QSTileImpl<BooleanState>
     public void handleSetListening(boolean listening) {
     }
 
-    private synchronized IPowerShare getPowerShare() {
-        final String fqName = IPowerShare.DESCRIPTOR + "/default";
-
-        try {
-            return IPowerShare.Stub.asInterface(ServiceManager.getService(fqName));
-        } catch (Exception e) {
-            // Handle both RemoteException and ServiceNotFoundException
-            Log.e(TAG, "Failed to get PowerShare service", e);
-            return null;
-        }
-    }
-
     private int getMinBatteryLevel() {
-        try {
-            return mPowerShare.getMinBattery();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return 0;
+        return mPowerShareManager.getMinBattery();
     }
 
     private int getBatteryLevel() {
