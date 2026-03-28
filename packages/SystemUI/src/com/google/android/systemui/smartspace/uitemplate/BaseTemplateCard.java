@@ -7,7 +7,6 @@ import android.app.smartspace.uitemplatedata.Icon;
 import android.app.smartspace.uitemplatedata.TapAction;
 import android.app.smartspace.uitemplatedata.Text;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -55,7 +54,6 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
     public BcSmartspaceCardSecondary mSecondaryCard;
     public ViewGroup mSecondaryCardPane;
     public boolean mShouldShowPageIndicator;
-    public DoubleShadowTextView mSubtitleAqiChipView;
     public ViewGroup mSubtitleGroup;
     public Rect mSubtitleHitRect;
     public Rect mSubtitleSupplementalHitRect;
@@ -99,13 +97,11 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
             mDateView.setClickable(false);
         }
         resetTextView(mTitleTextView);
-        resetTextView(mSubtitleAqiChipView);
         resetTextView(mSubtitleTextView);
         resetTextView(mSubtitleSupplementalView);
         resetTextView(mSupplementalLineTextView);
         BcSmartspaceTemplateDataUtils.updateVisibility(mTitleTextView, View.GONE);
         BcSmartspaceTemplateDataUtils.updateVisibility(mSubtitleGroup, View.GONE);
-        BcSmartspaceTemplateDataUtils.updateVisibility(mSubtitleAqiChipView, View.GONE);
         BcSmartspaceTemplateDataUtils.updateVisibility(mSubtitleTextView, View.GONE);
         BcSmartspaceTemplateDataUtils.updateVisibility(mSubtitleSupplementalView, View.GONE);
         BcSmartspaceTemplateDataUtils.updateVisibility(mSecondaryCardPane, View.GONE);
@@ -189,8 +185,7 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
         }
         BcSmartspaceTemplateDataUtils.updateVisibility(
                 mSubtitleGroup,
-                mSubtitleAqiChipView.getVisibility() != View.GONE
-                                || mSubtitleTextView.getVisibility() != View.GONE
+                mSubtitleTextView.getVisibility() != View.GONE
                                 || mSubtitleSupplementalView.getVisibility() != View.GONE
                         ? View.VISIBLE
                         : View.GONE);
@@ -316,7 +311,6 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
         mDateView = findViewById(R.id.date);
         mTitleTextView = findViewById(R.id.title_text);
         mSubtitleGroup = findViewById(R.id.smartspace_subtitle_group);
-        mSubtitleAqiChipView = findViewById(R.id.subtitle_aqi_chip);
         mSubtitleTextView = findViewById(R.id.subtitle_text);
         mSubtitleSupplementalView = findViewById(R.id.base_action_icon_subtitle);
         mExtrasGroup = findViewById(R.id.smartspace_extras_group);
@@ -448,9 +442,6 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
         if (mDateView != null) {
             mDateView.setTextColor(color);
         }
-        if (mSubtitleAqiChipView != null) {
-            mSubtitleAqiChipView.setTextColor(color);
-        }
         if (mSubtitleTextView != null) {
             mSubtitleTextView.setTextColor(color);
             if (mTemplateData != null) {
@@ -523,26 +514,7 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
             textView.setTextColor(this.mIconTintColor);
         }
         Icon icon = subItemInfo.getIcon();
-        if (mSubtitleAqiChipView == textView) {
-            if (icon != null) {
-                Bitmap bitmap = icon.getIcon().getType() == 1 ? icon.getIcon().getBitmap() : null;
-                int pixel =
-                        bitmap != null
-                                ? icon.getIcon()
-                                        .getBitmap()
-                                        .getPixel(bitmap.getWidth() / 2, bitmap.getHeight() / 2)
-                                : 0;
-                if (pixel == 0) {
-                    Log.w("SsBaseTemplateCard", "Failed to get chip color from icon");
-                }
-                textView.getBackground().setTint(pixel);
-                ContentDescriptionUtil.setFormattedContentDescription(
-                        "SsBaseTemplateCard",
-                        textView,
-                        SmartspaceUtils.isEmpty(text) ? "" : text.getText(),
-                        icon.getContentDescription());
-            }
-        } else if (icon != null) {
+        if (icon != null) {
             DoubleShadowIconDrawable drawable = new DoubleShadowIconDrawable(getContext());
             drawable.setIcon(
                     BcSmartSpaceUtil.getIconDrawableWithCustomSize(
@@ -627,7 +599,6 @@ public class BaseTemplateCard extends ConstraintLayout implements SmartspaceCard
         mDateView = null;
         mTitleTextView = null;
         mSubtitleGroup = null;
-        mSubtitleAqiChipView = null;
         mSubtitleTextView = null;
         mSubtitleSupplementalView = null;
         mSubtitleHitRect = null;

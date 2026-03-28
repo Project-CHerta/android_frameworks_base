@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toStartOf="@+id/first_competitor_score"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/match_time_summary"
-        app:tint="@androidprv:color/materialColorOnSurface" />
+        app:tint="?android:textColorPrimary" />
 
     <ImageView
         android:id="@+id/second_competitor_logo"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/second_competitor_score"
         app:layout_constraintTop_toTopOf="@+id/first_competitor_logo"
-        app:tint="@androidprv:color/materialColorOnSurface" />
+        app:tint="?android:textColorPrimary" />
 
     <TextView
         android:id="@+id/first_competitor_score"
